@@ -1,4 +1,6 @@
-import styles from './information.module.css'
+import styles from './information.module.css';
+import PropTypes from 'prop-types';
+
 
 export const InformationLayout = (props) => {
     return (
@@ -8,4 +10,10 @@ export const InformationLayout = (props) => {
                 <button className={styles.button} onClick={props.startAgain}>Начать сначала</button>}
         </div>
     );
+}
+
+InformationLayout.propTypes = {
+    text: PropTypes.string,
+    showBtn: PropTypes.bool,
+    startAgain: PropTypes.func,
 }

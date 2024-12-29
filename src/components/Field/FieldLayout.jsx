@@ -1,4 +1,6 @@
-import styles from './field.module.css'
+import styles from './field.module.css';
+import PropTypes from 'prop-types';
+
 
 export const FieldLayout = ({ field, currentPlayer, makeMove }) => {
     return (
@@ -8,4 +10,10 @@ export const FieldLayout = ({ field, currentPlayer, makeMove }) => {
             )}
         </div >
     );
+}
+
+FieldLayout.propTypes = {
+  makeMove: PropTypes.func,
+  field: PropTypes.array,
+  currentPlayer: PropTypes.string,
 }

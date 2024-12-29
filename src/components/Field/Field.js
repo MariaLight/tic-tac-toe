@@ -1,4 +1,6 @@
 import { FieldLayout } from "./FieldLayout";
+import PropTypes from 'prop-types';
+
 
 const WIN_PATTERNS = [
     [0, 1, 2], [3, 4, 5], [6, 7, 8], // Варианты побед по горизонтали
@@ -47,3 +49,14 @@ export const Field = (props) => {
         makeMove={makeMove}
         currentPlayer={props.currentPlayer} />;
 } 
+
+Field.propTypes = {
+  isGameEnded: PropTypes.bool,
+  isDraw: PropTypes.bool,
+  field: PropTypes.array,
+  currentPlayer: PropTypes.string,
+  setCurrentPlayer: PropTypes.func,
+  setIsGameEnded: PropTypes.func,
+  setIsDraw: PropTypes.func,
+  setField: PropTypes.func,
+}
