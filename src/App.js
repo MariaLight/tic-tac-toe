@@ -1,46 +1,20 @@
-import { useState } from 'react';
-import './app.module.css';
 import { AppLayout } from './AppLayout';
+import { store } from './store';
+import { useState, useEffect } from 'react';
 
 
 function App() {
-  const [currentPlayer, setCurrentPlayer] = useState('x');
-  const [isGameEnded, setIsGameEnded] = useState(false);
-  const [isDraw, setIsDraw] = useState(false);
-  const [field, setField] = useState(
-    [
-      '', '', '',
-      '', '', '',
-      '', '', '',
-    ]
-  );
+  const [state, setState] = useState(store.getState())
 
-  const startAgain = () => {
-    setCurrentPlayer('x');
-    setIsGameEnded(false);
-    setIsDraw(false);
-    setField([
-      '', '', '',
-      '', '', '',
-      '', '', '',
-    ])
-  }
+  useEffect(() => {
+    store.subscribe(
+      () => setState(store.getState())
+    )
+  }, []);
 
   return (
     <>
-      <AppLayout
-        currentPlayer={currentPlayer}
-        field={field}
-        isDraw={isDraw}
-        isGameEnded={isGameEnded}
-        
-        setCurrentPlayer={setCurrentPlayer}
-        setIsGameEnded={setIsGameEnded}
-        setIsDraw={setIsDraw}
-        setField={setField}
-
-        startAgain={startAgain}
-      />
+      <AppLayout />
     </>
   );
 }

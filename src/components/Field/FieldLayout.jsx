@@ -1,8 +1,10 @@
 import styles from './field.module.css';
-import PropTypes from 'prop-types';
+import { store } from "../../store";
 
 
-export const FieldLayout = ({ field, currentPlayer, makeMove }) => {
+export const FieldLayout = ({ makeMove }) => {
+    const { field, currentPlayer } = store.getState();
+
     return (
         <div className={styles.field}>
             {field.map((item, index) =>
@@ -10,10 +12,4 @@ export const FieldLayout = ({ field, currentPlayer, makeMove }) => {
             )}
         </div >
     );
-}
-
-FieldLayout.propTypes = {
-  makeMove: PropTypes.func,
-  field: PropTypes.array,
-  currentPlayer: PropTypes.string,
 }

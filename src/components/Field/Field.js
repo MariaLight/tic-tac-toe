@@ -1,6 +1,5 @@
 import { FieldLayout } from "./FieldLayout";
-import PropTypes from 'prop-types';
-
+import { store } from "../../store";
 
 const WIN_PATTERNS = [
     [0, 1, 2], [3, 4, 5], [6, 7, 8], // Варианты побед по горизонтали
@@ -8,12 +7,15 @@ const WIN_PATTERNS = [
     [0, 4, 8], [2, 4, 6] // Варианты побед по диагонали
 ];
 
-export const Field = (props) => {
+export const Field = () => {
+
+    const { field, isGameEnded } = store.getState()
+    
     const checkIfWinner = (currentPlayer) => {
         let isWinner = false;
         for (let i = 0; i < WIN_PATTERNS.length; i++) {
             isWinner = WIN_PATTERNS[i].every((item) => {
-                return props.field[item] === currentPlayer;
+                return field[item] === currentPlayer;
             })
             if (isWinner) {
                 return true;
@@ -22,41 +24,29 @@ export const Field = (props) => {
         return false;
     }
     const checkAllFieldsFilled = () => {
-        return props.field.every((item) => {
+        return field.every((item) => {
             return item !== '';
         })
     }
 
     const makeMove = (currentPlayer, index) => {
-        let currentField = props.field;
-        if (!currentField[index] && !props.isGameEnded) {
+        let currentField = field;
+        if (!currentField[index] && !isGameEnded) {
             currentField[index] = currentPlayer;
-            props.setField(currentField);
+            store.dispatch({ type: 'SET_FIELD', payload: currentField })
             if (checkIfWinner(currentPlayer)) {
-                props.setIsGameEnded(true);
+                store.dispatch({ type: 'SET_IS_GAME_ENDED', payload: true })
             } else if (checkAllFieldsFilled()) {
-                props.setIsGameEnded(true);
-                props.setIsDraw(true);
+                store.dispatch({ type: 'SET_IS_GAME_ENDED', payload: true })
+                store.dispatch({ type: 'SET_IS_DRAW', payload: true })
             }
             else {
-                props.setCurrentPlayer(currentPlayer === 'x' ? 'o' : 'x');
+                const newCurrentPlayer = currentPlayer === 'x' ? 'o' : 'x';
+                store.dispatch({ type: 'SET_CURRENT_PLAYER', payload: newCurrentPlayer })
             }
         }
 
     }
-    return <FieldLayout
-        field={props.field}
-        makeMove={makeMove}
-        currentPlayer={props.currentPlayer} />;
-} 
 
-Field.propTypes = {
-  isGameEnded: PropTypes.bool,
-  isDraw: PropTypes.bool,
-  field: PropTypes.array,
-  currentPlayer: PropTypes.string,
-  setCurrentPlayer: PropTypes.func,
-  setIsGameEnded: PropTypes.func,
-  setIsDraw: PropTypes.func,
-  setField: PropTypes.func,
+    return <FieldLayout makeMove={makeMove} />;
 }

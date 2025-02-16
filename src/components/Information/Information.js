@@ -1,22 +1,16 @@
+import { store } from "../../store";
 import { InformationLayout } from "./InformationLayout";
-import PropTypes from 'prop-types';
 
+export const Information = () => {
 
-export const Information = (props) => {
     let text = '';
-    if (props.isDraw === true) {
+    const { isDraw, isGameEnded, currentPlayer } = store.getState();
+    if (isDraw === true) {
         text = 'Ничья';
-    } else if (props.isGameEnded === true) {
-        text = `Победа: ${props.currentPlayer}`;
+    } else if (isGameEnded === true) {
+        text = `Победа: ${currentPlayer}`;
     } else {
-        text = `Ходит: ${props.currentPlayer}`;
+        text = `Ходит: ${currentPlayer}`;
     }
-    return <InformationLayout startAgain={props.startAgain} text={text} showBtn={props.isGameEnded} />;
-}
-
-Information.propTypes = {
-  isGameEnded: PropTypes.bool,
-  isDraw: PropTypes.bool,
-  currentPlayer: PropTypes.string,
-  startAgain: PropTypes.func,
+    return <InformationLayout text={text} />;
 }
