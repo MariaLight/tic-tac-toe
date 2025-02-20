@@ -12,5 +12,9 @@ export const Information = () => {
     } else {
         text = `Ходит: ${currentPlayer}`;
     }
-    return <InformationLayout text={text} />;
+
+    const startAgain = () => {
+        store.dispatch({ type: 'START_AGAIN' });
+    }
+    return <InformationLayout text={text} startAgain={startAgain} />;
 }

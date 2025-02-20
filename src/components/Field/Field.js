@@ -10,8 +10,8 @@ const WIN_PATTERNS = [
 export const Field = () => {
 
     const { field, isGameEnded } = store.getState()
-    
-    const checkIfWinner = (currentPlayer) => {
+
+    const checkIfWinner = (currentPlayer, field) => {
         let isWinner = false;
         for (let i = 0; i < WIN_PATTERNS.length; i++) {
             isWinner = WIN_PATTERNS[i].every((item) => {
@@ -23,20 +23,22 @@ export const Field = () => {
         }
         return false;
     }
-    const checkAllFieldsFilled = () => {
+    const checkAllFieldsFilled = (field) => {
         return field.every((item) => {
             return item !== '';
         })
     }
 
     const makeMove = (currentPlayer, index) => {
-        let currentField = field;
+        let currentField = [...field];
         if (!currentField[index] && !isGameEnded) {
             currentField[index] = currentPlayer;
+            console.log(currentField);
+
             store.dispatch({ type: 'SET_FIELD', payload: currentField })
-            if (checkIfWinner(currentPlayer)) {
+            if (checkIfWinner(currentPlayer, currentField)) {
                 store.dispatch({ type: 'SET_IS_GAME_ENDED', payload: true })
-            } else if (checkAllFieldsFilled()) {
+            } else if (checkAllFieldsFilled(currentField)) {
                 store.dispatch({ type: 'SET_IS_GAME_ENDED', payload: true })
                 store.dispatch({ type: 'SET_IS_DRAW', payload: true })
             }

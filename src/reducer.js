@@ -39,7 +39,7 @@ export const appReducer = (state = initialState, action) => {
         case 'SET_FIELD': {
             return ({
                 ...state,
-                field: payload
+                field: [...payload]
             });
         }
         case 'START_AGAIN': {
