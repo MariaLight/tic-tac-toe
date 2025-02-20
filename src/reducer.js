@@ -9,11 +9,6 @@ export const initialState = {
     ]
 };
 
-export const initialField = [
-    "", "", "",
-    "", "", "",
-    "", "", "",
-]
 
 export const appReducer = (state = initialState, action) => {
     const { type, payload } = action;

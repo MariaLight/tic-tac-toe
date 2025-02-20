@@ -1,6 +1,5 @@
 import styles from './information.module.css';
 import { store } from '../../store'
-import { initialField } from '../../reducer'
 
 export const InformationLayout = (props) => {
     const { isGameEnded } = store.getState();
