@@ -1,9 +1,13 @@
 import styles from './field.module.css';
-import { store } from "../../store";
+import { selectCurrentPlayer, selectField } from '../../selectors';
+import { useSelector } from 'react-redux'
 
 
 export const FieldLayout = ({ makeMove }) => {
-    const { field, currentPlayer } = store.getState();
+
+    const currentPlayer = useSelector(selectCurrentPlayer);
+    const field = useSelector(selectField);
+
 
     return (
         <div className={styles.field}>

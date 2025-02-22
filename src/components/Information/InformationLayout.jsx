@@ -1,10 +1,12 @@
 import styles from './information.module.css';
-import { store } from '../../store'
+import { selectIsGameEnded } from '../../selectors';
+import { useSelector } from "react-redux";
+
 
 export const InformationLayout = (props) => {
-    const { isGameEnded } = store.getState();
+    const isGameEnded = useSelector(selectIsGameEnded);
 
-    
+
     return (
         <div className={styles.info}>
             <p>{props.text}</p>

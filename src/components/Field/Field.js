@@ -1,50 +1,32 @@
 import { FieldLayout } from "./FieldLayout";
-import { store } from "../../store";
-
-const WIN_PATTERNS = [
-    [0, 1, 2], [3, 4, 5], [6, 7, 8], // Варианты побед по горизонтали
-    [0, 3, 6], [1, 4, 7], [2, 5, 8], // Варианты побед по вертикали
-    [0, 4, 8], [2, 4, 6] // Варианты побед по диагонали
-];
+import { selectField, selectIsGameEnded } from "../../selectors";
+import { useDispatch, useSelector } from "react-redux";
+import { checkAllFieldsFilled, checkIfWinner } from '../../helperFunctions';
+import { setField, setIsGameEnded, setIsDraw, setCurrentPlayer } from "../../actions";
 
 export const Field = () => {
 
-    const { field, isGameEnded } = store.getState()
+    const isGameEnded = useSelector(selectIsGameEnded);
+    const field = useSelector(selectField);
+    const dispatch = useDispatch();
 
-    const checkIfWinner = (currentPlayer, field) => {
-        let isWinner = false;
-        for (let i = 0; i < WIN_PATTERNS.length; i++) {
-            isWinner = WIN_PATTERNS[i].every((item) => {
-                return field[item] === currentPlayer;
-            })
-            if (isWinner) {
-                return true;
-            }
-        }
-        return false;
-    }
-    const checkAllFieldsFilled = (field) => {
-        return field.every((item) => {
-            return item !== '';
-        })
-    }
+
 
     const makeMove = (currentPlayer, index) => {
         let currentField = [...field];
         if (!currentField[index] && !isGameEnded) {
             currentField[index] = currentPlayer;
-            console.log(currentField);
 
-            store.dispatch({ type: 'SET_FIELD', payload: currentField })
+            dispatch(setField(currentField))
             if (checkIfWinner(currentPlayer, currentField)) {
-                store.dispatch({ type: 'SET_IS_GAME_ENDED', payload: true })
+                dispatch(setIsGameEnded(true))
             } else if (checkAllFieldsFilled(currentField)) {
-                store.dispatch({ type: 'SET_IS_GAME_ENDED', payload: true })
-                store.dispatch({ type: 'SET_IS_DRAW', payload: true })
+                dispatch(setIsGameEnded(true))
+                dispatch(setIsDraw(true))
             }
             else {
                 const newCurrentPlayer = currentPlayer === 'x' ? 'o' : 'x';
-                store.dispatch({ type: 'SET_CURRENT_PLAYER', payload: newCurrentPlayer })
+                dispatch(setCurrentPlayer(newCurrentPlayer))
             }
         }
 

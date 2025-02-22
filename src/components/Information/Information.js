@@ -1,10 +1,17 @@
-import { store } from "../../store";
+
 import { InformationLayout } from "./InformationLayout";
+import { useSelector, useDispatch } from "react-redux";
+import { selectIsDraw, selectIsGameEnded, selectCurrentPlayer } from "../../selectors";
+import { START_AGAIN } from '../../actions'
 
 export const Information = () => {
 
     let text = '';
-    const { isDraw, isGameEnded, currentPlayer } = store.getState();
+    const dispatch = useDispatch();
+    const isDraw = useSelector(selectIsDraw);
+    const isGameEnded = useSelector(selectIsGameEnded);
+    const currentPlayer = useSelector(selectCurrentPlayer);
+
     if (isDraw === true) {
         text = 'Ничья';
     } else if (isGameEnded === true) {
@@ -14,7 +21,7 @@ export const Information = () => {
     }
 
     const startAgain = () => {
-        store.dispatch({ type: 'START_AGAIN' });
+        dispatch(START_AGAIN);
     }
     return <InformationLayout text={text} startAgain={startAgain} />;
 }
