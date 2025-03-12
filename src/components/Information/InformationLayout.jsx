@@ -1,17 +1,23 @@
 import styles from './information.module.css';
-import { selectIsGameEnded } from '../../selectors';
-import { useSelector } from "react-redux";
+import { connect } from "react-redux";
+import { Component } from 'react';
 
+export class InformationLayoutConatiner extends Component {
+    constructor(props) {
+        super(props);
+    }
 
-export const InformationLayout = (props) => {
-    const isGameEnded = useSelector(selectIsGameEnded);
-
-
-    return (
-        <div className={styles.info}>
-            <p>{props.text}</p>
-            {isGameEnded &&
-                <button className={styles.button} onClick={props.startAgain}>Начать сначала</button>}
-        </div>
-    );
+    render() {
+        return (
+            <div className={styles.info} >
+                <p>{this.props.text}</p>
+                {this.props.isGameEnded &&
+                    <button className={styles.button} onClick={this.props.startAgain}>Начать сначала</button>}
+            </div >
+        )
+    }
 }
+const mapStateToProps = (state) => ({
+    isGameEnded: state.isGameEnded
+})
+export const InformationLayout = connect(mapStateToProps)(InformationLayoutConatiner);
