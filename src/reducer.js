@@ -6,7 +6,8 @@ export const initialState = {
         "", "", "",
         "", "", "",
         "", "", "",
-    ]
+    ],
+    text: 'Ходит: x'
 };
 
 
@@ -39,6 +40,12 @@ export const appReducer = (state = initialState, action) => {
         }
         case 'START_AGAIN': {
             return initialState;
+        }
+        case 'SET_TEXT': {
+            return ({
+                ...state,
+                text: payload
+            });
         }
         default:
             return state;
