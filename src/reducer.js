@@ -1,5 +1,7 @@
+const FIRST_PLAYER = 'o';
+
 export const initialState = {
-    currentPlayer: 'x',
+    currentPlayer: FIRST_PLAYER,
     isGameEnded: false,
     isDraw: false,
     field: [
@@ -7,7 +9,7 @@ export const initialState = {
         "", "", "",
         "", "", "",
     ],
-    text: 'Ходит: x'
+    text: `Ходит: ${FIRST_PLAYER}`
 };
 
 
